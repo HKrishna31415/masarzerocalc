@@ -202,11 +202,25 @@ const InputPanel: React.FC<InputPanelProps> = ({ params, onParamChange, currency
                 value={currency}
                 onChange={onCurrencyChange}
                 options={[
-                    { value: 'USD', label: '$ USD' },
-                    { value: 'EUR', label: '€ EUR' },
-                    { value: 'GBP', label: '£ GBP' },
-                    { value: 'JPY', label: '¥ JPY' },
-                    { value: 'CAD', label: '$ CAD' },
+                    { value: 'USD', label: '$ USD — US Dollar' },
+                    { value: 'EUR', label: '€ EUR — Euro' },
+                    { value: 'GBP', label: '£ GBP — British Pound' },
+                    { value: 'JPY', label: '¥ JPY — Japanese Yen' },
+                    { value: 'CAD', label: '$ CAD — Canadian Dollar' },
+                    { value: 'AUD', label: '$ AUD — Australian Dollar' },
+                    { value: 'CHF', label: 'Fr CHF — Swiss Franc' },
+                    { value: 'CNY', label: '¥ CNY — Chinese Yuan' },
+                    { value: 'INR', label: '₹ INR — Indian Rupee' },
+                    { value: 'BRL', label: 'R$ BRL — Brazilian Real' },
+                    { value: 'SAR', label: '﷼ SAR — Saudi Riyal' },
+                    { value: 'AED', label: 'د.إ AED — UAE Dirham' },
+                    { value: 'KWD', label: 'KD KWD — Kuwaiti Dinar' },
+                    { value: 'QAR', label: 'QR QAR — Qatari Riyal' },
+                    { value: 'BHD', label: 'BD BHD — Bahraini Dinar' },
+                    { value: 'OMR', label: 'OMR OMR — Omani Rial' },
+                    { value: 'KRW', label: '₩ KRW — Korean Won' },
+                    { value: 'THB', label: '฿ THB — Thai Baht' },
+                    { value: 'MYR', label: 'RM MYR — Malaysian Ringgit' },
                 ]}
             />
         </div>
@@ -269,11 +283,11 @@ const InputPanel: React.FC<InputPanelProps> = ({ params, onParamChange, currency
                     <select 
                         id="hardware-select"
                         className="w-full bg-white dark:bg-navy-950 border border-slate-300 dark:border-white/20 rounded-md py-1.5 px-3 text-sm text-slate-900 dark:text-white mb-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary shadow-sm"
+                        value={params.hardwareType || ''}
                         onChange={(e) => applyHardwarePreset(e.target.value)}
-                        defaultValue=""
                     >
                          <option value="" disabled>Select hardware...</option>
-                         {HARDWARE_PRESETS.map(h => <option key={h.name} value={h.name}>{h.name}</option>)}
+                         {HARDWARE_PRESETS.map(h => <option key={h.name} value={h.name}>{h.name} — {new Intl.NumberFormat('en-US', { style: 'currency', currency, notation: 'compact' }).format(h.unitCost)}</option>)}
                     </select>
                     
                     {/* Show Unit Cost for both personas */}

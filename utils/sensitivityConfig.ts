@@ -11,7 +11,20 @@ export const EXCHANGE_RATES: Record<string, number> = {
   CHF: 0.88,
   CNY: 7.19,
   INR: 82.90,
-  BRL: 4.97
+  BRL: 4.97,
+  // GCC
+  SAR: 3.75,
+  AED: 3.67,
+  KWD: 0.307,
+  QAR: 3.64,
+  BHD: 0.376,
+  OMR: 0.385,
+  // Asia-Pacific
+  KRW: 1325.0,
+  THB: 35.1,
+  MYR: 4.72,
+  // China
+  // CNY already included above
 };
 
 export const CURRENCY_SYMBOLS: Record<string, string> = {
@@ -24,7 +37,18 @@ export const CURRENCY_SYMBOLS: Record<string, string> = {
   CHF: 'Fr',
   CNY: '¥',
   INR: '₹',
-  BRL: 'R$'
+  BRL: 'R$',
+  // GCC
+  SAR: '﷼',
+  AED: 'د.إ',
+  KWD: 'KD',
+  QAR: 'QR',
+  BHD: 'BD',
+  OMR: 'OMR',
+  // Asia-Pacific
+  KRW: '₩',
+  THB: '฿',
+  MYR: 'RM',
 };
 
 export const MONETARY_PARAMS: (keyof InputParams)[] = [

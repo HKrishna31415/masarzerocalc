@@ -137,7 +137,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                 </div>
 
                 {/* Footer */}
-                <div className="p-3 border-t border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-navy-900/30">
+                <div className="p-3 border-t border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-navy-900/30 space-y-2">
+                    <a
+                        href="https://www.masarzero.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white text-xs font-bold py-2.5 rounded-lg transition-all shadow-lg hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy-950 group"
+                    >
+                        <span className="uppercase tracking-wider">Visit MasarZero</span>
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                    
                     <button className="w-full flex items-center justify-center gap-2 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-navy-300 text-[10px] font-bold py-2.5 rounded-lg transition-all border border-slate-200 dark:border-white/5 hover:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy-950 group overflow-hidden uppercase tracking-wider">
                         <span className="group-hover:text-primary-dark dark:group-hover:text-primary-light transition-colors">v3.5.0 Pro</span>
                     </button>
@@ -325,9 +337,30 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
 
                 {/* Footer */}
                 <motion.div 
-                    className="p-3 border-t border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-navy-900/30"
+                    className="p-3 border-t border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-navy-900/30 space-y-2"
                     whileHover={{ backgroundColor: 'rgba(5, 150, 105, 0.05)' }}
                 >
+                    <AnimatePresence>
+                        {isExpanded && (
+                            <motion.a
+                                href="https://www.masarzero.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white text-xs font-bold py-2.5 rounded-lg transition-all shadow-lg hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy-950 group"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <span className="uppercase tracking-wider">Visit MasarZero</span>
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </motion.a>
+                        )}
+                    </AnimatePresence>
+                    
                     <motion.button 
                         className="w-full flex items-center justify-center gap-2 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-navy-300 text-[10px] font-bold py-2.5 rounded-lg transition-all border border-slate-200 dark:border-white/5 hover:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy-950 group overflow-hidden"
                         whileHover={{ scale: 1.02 }}
