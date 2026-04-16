@@ -1,0 +1,5 @@
+{
+  "name": "MasarZero Economics Calculator",
+  "description": "An advanced tool to model the economics and profitability of vapor recovery units. Users can adjust various parameters related to business models, client information, and operational costs to see real-time financial results and analysis.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Economics Calculator</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'monospace'],
+            },
+            colors: {
+              'navy': {
+                950: '#020617', // Midnight Obsidian - Deepest
+                900: '#0B1120',
+                800: '#151E32',
+                700: '#1E293B',
+                600: '#334155',
+                500: '#475569',
+                400: '#64748B',
+                300: '#94A3B8',
+                200: '#CBD5E1',
+                100: '#E2E8F0',
+              },
+              'glass': {
+                100: 'rgba(255, 255, 255, 0.03)',
+                200: 'rgba(255, 255, 255, 0.05)',
+                300: 'rgba(255, 255, 255, 0.1)',
+                border: 'rgba(255, 255, 255, 0.08)',
+                highlight: 'rgba(255, 255, 255, 0.15)',
+              },
+              'primary': {
+                'DEFAULT': '#059669', // Deep Emerald - Professional
+                'glow': 'rgba(5, 150, 105, 0.5)',
+                'dim': 'rgba(5, 150, 105, 0.1)',
+                'dark': '#047857',
+                'light': '#10B981',
+                'darker': '#064E3B',
+              },
+              'secondary': {
+                'DEFAULT': '#0891B2', // Teal for depth
+                'glow': 'rgba(8, 145, 178, 0.5)',
+                'dark': '#0E7490',
+                'light': '#06B6D4',
+              },
+              'success': {
+                'DEFAULT': '#10B981',
+                'light': '#34D399',
+                'glow': 'rgba(16, 185, 129, 0.4)',
+              },
+              'danger': {
+                 'DEFAULT': '#EF4444',
+                 'light': '#F87171',
+                 'glow': 'rgba(239, 68, 68, 0.4)',
+              },
+              'titanium': {
+                'white': '#FAFAFA', // Light mode background
+                'silver': '#F5F5F5',
+              }
+            },
+            boxShadow: {
+              'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+              'glow': '0 0 20px rgba(5, 150, 105, 0.4)',
+              'glow-lg': '0 0 40px rgba(5, 150, 105, 0.25)',
+              'stripe': '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06)',
+              'stripe-lg': '0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06)',
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+              'card-gradient': 'linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+              'gradient-primary': 'linear-gradient(135deg, #059669 0%, #047857 100%)', 
+              'gradient-dark': 'linear-gradient(to bottom right, #020617, #0B1120)',
+              'gradient-teal': 'linear-gradient(135deg, #081722 0%, #295755 100%)',
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'pulse-primary': 'pulse-primary 2s infinite',
+              'shimmer': 'shimmer 1s ease-in-out',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              'pulse-primary': {
+                '0%, 100%': { boxShadow: '0 0 0 0 rgba(5, 150, 105, 0.4)' },
+                '50%': { boxShadow: '0 0 0 10px rgba(5, 150, 105, 0)' },
+              },
+              shimmer: {
+                '0%': { backgroundColor: 'transparent' },
+                '50%': { backgroundColor: 'rgba(5, 150, 105, 0.2)' },
+                '100%': { backgroundColor: 'transparent' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --bg-color: #FAFAFA; /* Titanium White */
+        --bg-image: 
+          linear-gradient(to bottom, rgba(250, 250, 250, 0.95), rgba(245, 245, 245, 1)),
+          repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.01) 2px, rgba(0, 0, 0, 0.01) 4px);
+        --text-primary: #0F172A; /* Deep Slate */
+        --text-secondary: #475569;
+      }
+      
+      .dark {
+        --bg-color: #020617; /* Midnight Obsidian */
+        --bg-image: 
+          radial-gradient(ellipse at top, rgba(8, 23, 34, 0.8) 0%, transparent 50%),
+          radial-gradient(ellipse at bottom right, rgba(41, 87, 85, 0.3) 0%, transparent 50%),
+          url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        --text-primary: #F1F5F9;
+        --text-secondary: #94A3B8;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        background-image: var(--bg-image);
+        background-attachment: fixed;
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.05); 
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.5); 
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.5); 
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: rgba(71, 85, 105, 0.8); 
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(148, 163, 184, 0.8); 
+      }
+
+      .drop-shadow-glow {
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+      }
+      
+      .hover-lift {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      }
+      .dark .hover-lift:hover {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      }
+
+      @keyframes pulse-glow {
+        0%, 100% { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5)); }
+        50% { filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.8)); }
+      }
+      .animate-pulse-glow {
+        animation: pulse-glow 3s infinite ease-in-out;
+      }
+
+      .tooltip-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        pointer-events: none;
+      }
+      .tooltip-modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .tooltip-modal-content {
+        background: #ffffff;
+        color: #0f172a;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        border-radius: 1.5rem;
+        max-width: 500px;
+        width: 90%;
+        transform: scale(0.95) translateY(10px);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .dark .tooltip-modal-content {
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      }
+      
+      .tooltip-modal-overlay.open .tooltip-modal-content {
+          transform: scale(1) translateY(0);
+      }
+    </style>
+
+</head>
+  <body class="text-navy-200 antialiased font-sans h-screen overflow-hidden selection:bg-primary selection:text-navy-950">
+    <div id="root" class="h-full"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
