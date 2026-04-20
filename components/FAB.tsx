@@ -15,7 +15,7 @@ const FAB: React.FC<FABProps> = ({ unitSystem, onToggle }) => {
     <button
       id="unit-toggle-fab"
       onClick={onToggle}
-      className="fixed bottom-6 right-6 bg-gradient-primary text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-105 hover:shadow-glow hover:brightness-110 transition-all duration-200 ease-in-out font-black text-lg z-30 border border-white/10 focus:outline-none focus:ring-4 focus:ring-primary focus:ring-offset-2 focus:ring-offset-navy-950"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-gradient-primary text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-105 hover:shadow-glow hover:brightness-110 transition-all duration-200 ease-in-out font-black text-base sm:text-lg z-30 border border-white/10 focus:outline-none focus:ring-4 focus:ring-primary focus:ring-offset-2 focus:ring-offset-navy-950"
       aria-label={label}
     >
       {text}

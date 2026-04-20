@@ -22,9 +22,28 @@ import QuickPresets from './components/QuickPresets';
 import { EXCHANGE_RATES, MONETARY_PARAMS } from './utils/sensitivityConfig';
 import { OnboardingTour } from './components/OnboardingTour';
 import { DEFAULT_PARAMS } from './utils/presets';
-import { MenuIcon, CalculatorIcon, UndoIcon, RedoIcon, DocumentDownloadIcon } from './components/icons';
+import { MenuIcon, UndoIcon, RedoIcon, DocumentDownloadIcon } from './components/icons';
+import { Language, LANGUAGES, t } from './utils/i18n';
+import { LangContext } from './utils/langContext';
 
 type ActivePage = 'model' | 'assumptions' | 'sensitivity' | 'scenarios' | 'lease-analysis' | 'monte-carlo' | 'comparison' | 'goal-seek' | 'impact' | 'presentation';
+
+const LanguageToggle: React.FC<{ lang: Language; setLang: (l: Language) => void }> = ({ lang, setLang }) => (
+  <div className="flex items-center gap-0.5 bg-white/10 dark:bg-navy-900/80 border border-white/10 rounded-lg p-0.5 backdrop-blur-sm">
+    {LANGUAGES.map((l) => (
+      <button
+        key={l.code}
+        onClick={() => setLang(l.code)}
+        className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-primary ${
+          lang === l.code ? 'bg-primary text-white shadow-sm' : 'text-slate-600 dark:text-navy-400 hover:text-slate-900 dark:hover:text-white'
+        }`}
+        title={l.label}
+      >
+        {l.nativeLabel}
+      </button>
+    ))}
+  </div>
+);
 
 const App: React.FC = () => {
   // Use history hook for undo/redo
@@ -44,6 +63,7 @@ const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [showExportHub, setShowExportHub] = useState(false);
+  const [lang, setLang] = useState<Language>('en');
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -194,60 +214,30 @@ const App: React.FC = () => {
     switch (activePage) {
       case 'model':
         return (
-          // Fixed Layout for Model Dashboard - both panels scroll independently
-          <div className="flex flex-col lg:flex-row w-full h-full min-h-0">
+          <div className="flex flex-col lg:flex-row w-full lg:h-full lg:min-h-0">
             {/* Left Panel - Input */}
-            <div className="w-full lg:w-[340px] xl:w-[380px] bg-slate-100 dark:bg-navy-950/50 border-r border-slate-200 dark:border-white/5 flex-shrink-0 p-4 lg:p-6 overflow-y-auto transition-colors duration-300 space-y-4">
-              {/* Quick Presets */}
+            <div className="w-full lg:w-[340px] xl:w-[380px] bg-slate-100 dark:bg-navy-950/50 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-white/5 flex-shrink-0 p-4 lg:p-6 lg:overflow-y-auto transition-colors duration-300 space-y-4">
               <QuickPresets onApplyPreset={handleApplyPreset} currentParams={inputParams} />
-              
-              {/* Undo/Redo Controls */}
               <div className="flex gap-2">
-                <button
-                  onClick={undo}
-                  disabled={!canUndo}
-                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg border border-slate-200 dark:border-white/10 transition-all text-xs font-bold text-slate-700 dark:text-white"
-                  title="Undo (Ctrl+Z)"
-                >
-                  <UndoIcon className="w-4 h-4" />
-                  <span>Undo</span>
+                <button onClick={undo} disabled={!canUndo} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg border border-slate-200 dark:border-white/10 transition-all text-xs font-bold text-slate-700 dark:text-white" title="Undo (Ctrl+Z)">
+                  <UndoIcon className="w-4 h-4" /><span>Undo</span>
                 </button>
-                <button
-                  onClick={redo}
-                  disabled={!canRedo}
-                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg border border-slate-200 dark:border-white/10 transition-all text-xs font-bold text-slate-700 dark:text-white"
-                  title="Redo (Ctrl+Y)"
-                >
-                  <RedoIcon className="w-4 h-4" />
-                  <span>Redo</span>
+                <button onClick={redo} disabled={!canRedo} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-lg border border-slate-200 dark:border-white/10 transition-all text-xs font-bold text-slate-700 dark:text-white" title="Redo (Ctrl+Y)">
+                  <RedoIcon className="w-4 h-4" /><span>Redo</span>
                 </button>
-                <button
-                  onClick={() => setShowExportHub(true)}
-                  className="px-3 py-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-lg transition-all text-xs font-bold shadow-lg flex items-center justify-center"
-                  title="Export Data (Ctrl+E)"
-                >
+                <button onClick={() => setShowExportHub(true)} className="px-3 py-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-lg transition-all text-xs font-bold shadow-lg flex items-center justify-center" title="Export Data (Ctrl+E)">
                   <DocumentDownloadIcon className="w-4 h-4" />
                 </button>
               </div>
-              
               {historySize > 0 && (
                 <div className="text-[10px] text-slate-500 dark:text-navy-500 text-center">
                   {historySize} change{historySize !== 1 ? 's' : ''} in history
                 </div>
               )}
-              
-              <InputPanel 
-                params={inputParams} 
-                onParamChange={handleInputChange} 
-                currency={currency}
-                onCurrencyChange={handleCurrencyChange}
-                darkMode={darkMode}
-                onToggleDarkMode={toggleDarkMode}
-              />
+              <InputPanel params={inputParams} onParamChange={handleInputChange} currency={currency} onCurrencyChange={handleCurrencyChange} darkMode={darkMode} onToggleDarkMode={toggleDarkMode} />
             </div>
-            
-            {/* Right Panel - Results, scrolls independently */}
-            <div className="w-full flex-1 min-h-0 overflow-y-auto p-4 lg:p-6 relative">
+            {/* Right Panel */}
+            <div className="w-full flex-1 lg:min-h-0 lg:overflow-y-auto p-4 lg:p-6 relative">
               <ResultsPanel results={calculatedResults} inputs={inputParams} currency={currency} darkMode={darkMode} onNavigate={handleNavigate} />
             </div>
           </div>
@@ -275,7 +265,11 @@ const App: React.FC = () => {
 
   return (
     // Outer container: h-screen fixed to viewport. 
-    <div className="flex h-screen w-full bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-navy-200 font-sans overflow-hidden print:bg-white print:text-black">
+    <LangContext.Provider value={{ lang, t: (key) => t(lang, key) }}>
+    <div
+      className="flex h-screen w-full bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-navy-200 font-sans overflow-hidden print:bg-white print:text-black"
+      dir={LANGUAGES.find(l => l.code === lang)?.dir ?? 'ltr'}
+    >
       <OnboardingTour isOpen={showOnboarding} onClose={handleCloseOnboarding} />
       
       {/* Hide Sidebar in Presentation Mode or Print Mode */}
@@ -284,19 +278,25 @@ const App: React.FC = () => {
             <Sidebar activePage={activePage} onNavigate={handleNavigate} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             
             {/* Main Content Area */}
-            <main className="flex-1 h-full flex flex-col relative bg-slate-50 dark:bg-[#020617] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-primary/5 dark:via-[#020617] dark:to-[#020617] overflow-hidden transition-colors duration-300">
+            <main className="flex-1 h-full flex flex-col relative bg-slate-50 dark:bg-[#020617] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-primary/5 dark:via-[#020617] dark:to-[#020617] overflow-y-auto lg:overflow-hidden transition-colors duration-300">
                 {/* Mobile Header - Sticky */}
                 <div className="lg:hidden sticky top-0 z-20 px-4 py-3 flex items-center justify-between border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-navy-950/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-navy-950/60">
-                    <button aria-label="Open menu" onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-700 dark:text-white -ml-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-navy-950 rounded-md hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+                    <button aria-label="Open menu" onClick={() => setIsSidebarOpen(true)} className="p-3 text-slate-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-navy-950 rounded-md hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
                         <MenuIcon className="w-6 h-6" />
                     </button>
                     <div className="flex items-center gap-2">
                         <img src="https://www.masarzero.com/masarzerologo.png" alt="MasarZero Logo" className="h-8 w-auto object-contain drop-shadow-glow animate-pulse-glow" referrerPolicy="no-referrer" />
                     </div>
-                    <div className="w-8"></div> {/* Spacer */}
+                    {/* Language Toggle - mobile */}
+                    <LanguageToggle lang={lang} setLang={setLang} />
                 </div>
 
-                <div className="flex-1 w-full relative h-full">
+                {/* Desktop Language Toggle - top right */}
+                <div className="hidden lg:flex absolute top-3 right-4 z-20">
+                    <LanguageToggle lang={lang} setLang={setLang} />
+                </div>
+
+                <div className="flex-1 w-full relative min-h-0 overflow-y-auto">
                     {renderPage()}
                 </div>
             </main>
@@ -437,6 +437,7 @@ const App: React.FC = () => {
           </div>
       </div>
     </div>
+    </LangContext.Provider>
   );
 };
 

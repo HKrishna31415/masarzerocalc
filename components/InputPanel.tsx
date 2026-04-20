@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { InputParams } from '../types';
 import ToggleSwitch from './ToggleSwitch';
 import SliderInput from './SliderInput';
@@ -9,6 +9,7 @@ import SelectInput from './SelectInput';
 import { CURRENCY_SYMBOLS } from '../utils/sensitivityConfig';
 import { ChevronDownIcon, ChevronUpIcon, ShareIcon, CheckIcon, LightningIcon, CalculatorIcon, SlidersIcon, BriefcaseIcon, RefreshIcon } from './icons';
 import { PRESETS } from '../utils/presets';
+import { LangContext } from '../utils/langContext';
 
 interface InputPanelProps {
   params: InputParams;
@@ -21,9 +22,11 @@ interface InputPanelProps {
 
 // Machine Hardware Presets (Base EXW costs - adjust for FOB/DDP)
 const HARDWARE_PRESETS = [
-    { name: 'GEVLR-2', unitCost: 35000, power: 4.0, rate: 42, maintenance: 1000, install: 3000 },
-    { name: 'GEVLR-3', unitCost: 50000, power: 12.0, rate: 126, maintenance: 1000, install: 5000 },
-    { name: 'MZ-1', unitCost: 50000, power: 24.0, rate: 252, maintenance: 1000, install: 8000 },
+    { name: 'KSM-5',   unitCost: 18000, power: 2.2, rate: 21,  maintenance: 500,  install: 1500 },
+    { name: 'AWVR',    unitCost: 19000, power: 3.0, rate: 30,  maintenance: 750,  install: 2000 },
+    { name: 'GEVLR-2', unitCost: 15000, power: 4.0, rate: 42,  maintenance: 1000, install: 3000 },
+    { name: 'GEVLR-3', unitCost: 22000, power: 12.0, rate: 126, maintenance: 1000, install: 5000 },
+    { name: 'MZ-1',    unitCost: 50000, power: 24.0, rate: 252, maintenance: 1000, install: 8000 },
 ];
 
 // Accordion Item Component
@@ -60,6 +63,7 @@ const AccordionItem: React.FC<{
 };
 
 const InputPanel: React.FC<InputPanelProps> = ({ params, onParamChange, currency, onCurrencyChange, darkMode, onToggleDarkMode }) => {
+  const { t } = useContext(LangContext);
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     'client': true,
     'operations': false,
@@ -134,14 +138,14 @@ const InputPanel: React.FC<InputPanelProps> = ({ params, onParamChange, currency
                         className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-slate-200 dark:focus:ring-offset-navy-900 ${persona === 'sales' ? 'bg-white dark:bg-primary text-slate-900 dark:text-white shadow' : 'text-slate-500 dark:text-navy-400 hover:text-slate-900 dark:hover:text-white'}`}
                     >
                         <BriefcaseIcon className="w-3 h-3" />
-                        Sales
+                        {t('salesMode')}
                     </button>
                     <button 
                          onClick={() => setPersona('analyst')}
                          className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-md transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-1 focus:ring-offset-slate-200 dark:focus:ring-offset-navy-900 ${persona === 'analyst' ? 'bg-white dark:bg-secondary text-slate-900 dark:text-white shadow' : 'text-slate-500 dark:text-navy-400 hover:text-slate-900 dark:hover:text-white'}`}
                     >
                         <LightningIcon className="w-3 h-3" />
-                        Analyst
+                        {t('analystMode')}
                     </button>
                  </div>
                  <button
@@ -282,7 +286,7 @@ const InputPanel: React.FC<InputPanelProps> = ({ params, onParamChange, currency
                     </label>
                     <select 
                         id="hardware-select"
-                        className="w-full bg-white dark:bg-navy-950 border border-slate-300 dark:border-white/20 rounded-md py-1.5 px-3 text-sm text-slate-900 dark:text-white mb-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary shadow-sm"
+                        className="w-full bg-white dark:bg-navy-950 border border-slate-300 dark:border-white/20 rounded-md py-2.5 px-3 text-xs sm:text-sm text-slate-900 dark:text-white mb-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary shadow-sm min-h-[44px]"
                         value={params.hardwareType || ''}
                         onChange={(e) => applyHardwarePreset(e.target.value)}
                     >

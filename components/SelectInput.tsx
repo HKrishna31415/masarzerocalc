@@ -10,14 +10,14 @@ interface SelectInputProps {
 const SelectInput: React.FC<SelectInputProps> = ({ label, value, onChange, options }) => {
   const inputId = `select-input-${label.replace(/\s+/g, '-')}`;
   return (
-    <div className="flex items-center justify-between">
-      <label htmlFor={inputId} className="text-sm font-medium text-slate-500 dark:text-navy-200">{label}</label>
+    <div className="flex items-center justify-between gap-2">
+      <label htmlFor={inputId} className="text-xs sm:text-sm font-medium text-slate-500 dark:text-navy-200 flex-shrink-0">{label}</label>
       <div className="relative">
         <select
           id={inputId}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="appearance-none w-full bg-white dark:bg-navy-950 border border-slate-300 dark:border-white/20 rounded-md py-2 pl-3 pr-8 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition shadow-sm"
+          className="appearance-none w-full bg-white dark:bg-navy-950 border border-slate-300 dark:border-white/20 rounded-md py-2.5 pl-3 pr-8 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition shadow-sm min-h-[44px]"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>

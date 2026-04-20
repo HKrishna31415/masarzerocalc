@@ -46,7 +46,7 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
              <span className="text-[10px] text-teal-700 dark:text-primary-light font-bold pr-2">{unit}</span>
         </div>
       </div>
-      <div className="relative h-5 flex items-center">
+      <div className="relative h-7 flex items-center">
         <input
             id={inputId}
             type="range"
@@ -56,7 +56,7 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
             value={value}
             onChange={(e) => onChange(parseFloat(e.target.value))}
             style={sliderStyle}
-            className={`w-full h-1.5 rounded-full appearance-none cursor-pointer slider-thumb transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${darkMode ? 'focus:ring-offset-navy-900 slider-thumb-dark' : 'focus:ring-offset-white slider-thumb-light'}`}
+            className={`w-full h-2 rounded-full appearance-none cursor-pointer slider-thumb transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${darkMode ? 'focus:ring-offset-navy-900 slider-thumb-dark' : 'focus:ring-offset-white slider-thumb-light'}`}
             aria-valuemin={min}
             aria-valuemax={max}
             aria-valuenow={value}
@@ -81,8 +81,8 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
         .slider-thumb-dark::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 16px;
-          height: 16px;
+          width: 20px;
+          height: 20px;
           background: #020617;
           border: 2px solid #14B8A6; /* Teal-500 */
           border-radius: 50%;
@@ -96,8 +96,8 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
             box-shadow: 0 0 15px rgba(20, 184, 166, 0.8);
         }
         .slider-thumb-dark::-moz-range-thumb {
-          width: 16px;
-          height: 16px;
+          width: 20px;
+          height: 20px;
           background: #020617;
           border: 2px solid #14B8A6;
           border-radius: 50%;
@@ -113,8 +113,8 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
         .slider-thumb-light::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 16px;
-          height: 16px;
+          width: 20px;
+          height: 20px;
           background: #ffffff;
           border: 2px solid #0D9488; /* Teal-600 */
           border-radius: 50%;
@@ -128,8 +128,8 @@ const SliderInput: React.FC<SliderInputProps> = ({ label, value, min, max, step,
             box-shadow: 0 2px 5px rgba(13, 148, 136, 0.4);
         }
         .slider-thumb-light::-moz-range-thumb {
-          width: 16px;
-          height: 16px;
+          width: 20px;
+          height: 20px;
           background: #ffffff;
           border: 2px solid #0D9488;
           border-radius: 50%;

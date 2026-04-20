@@ -55,12 +55,12 @@ const QuickPresets: React.FC<QuickPresetsProps> = ({ onApplyPreset, currentParam
         </div>
         
         {/* Category Filter */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-navy-700">
+        <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-navy-700">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`flex-shrink-0 px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+              className={`flex-shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold rounded-lg transition-all ${
                 selectedCategory === category
                   ? 'bg-gradient-primary text-white shadow-glow'
                   : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-navy-300 hover:bg-slate-200 dark:hover:bg-white/10'
@@ -72,7 +72,7 @@ const QuickPresets: React.FC<QuickPresetsProps> = ({ onApplyPreset, currentParam
         </div>
       </div>
       
-      <div className="p-3 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-navy-700">
+      <div className="p-2 sm:p-3 max-h-[280px] sm:max-h-[380px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-navy-700">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedCategory}
@@ -90,7 +90,7 @@ const QuickPresets: React.FC<QuickPresetsProps> = ({ onApplyPreset, currentParam
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary-light/20 dark:from-primary/10 dark:to-primary-light/10 flex items-center justify-center text-primary-dark dark:text-primary-light group-hover:scale-110 transition-transform">
+                <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-primary/20 to-primary-light/20 dark:from-primary/10 dark:to-primary-light/10 flex items-center justify-center text-primary-dark dark:text-primary-light group-hover:scale-110 transition-transform">
                   {getCategoryIcon(preset.category)}
                 </div>
                 <div className="flex-1 min-w-0">

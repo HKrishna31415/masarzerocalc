@@ -90,7 +90,7 @@ const ImpactAnalysis: React.FC<ImpactAnalysisProps> = ({ results, inputs, curren
     : 'bg-danger/10 border-danger/20';
 
   return (
-    <div className="p-6 lg:p-8 w-full max-w-6xl mx-auto overflow-y-auto custom-scrollbar pb-16">
+    <div className="p-6 lg:p-8 w-full max-w-6xl mx-auto pb-16">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <div className="p-3 bg-gradient-to-br from-primary to-primary-dark rounded-xl shadow-glow">

@@ -25,7 +25,7 @@ const MetricDisplay: React.FC<MetricDisplayProps> = ({ label, value, highlight, 
  
   if (variant === 'hero') {
       return (
-        <div className="bg-white dark:bg-glass-200 backdrop-blur-md border border-slate-200 dark:border-glass-border p-5 rounded-2xl shadow-sm dark:shadow-glass relative group transition-all duration-300 hover:border-primary/30 dark:hover:border-glass-highlight hover:translate-y-[-2px] overflow-hidden">
+        <div className="bg-white dark:bg-glass-200 backdrop-blur-md border border-slate-200 dark:border-glass-border p-3 sm:p-4 lg:p-5 rounded-2xl shadow-sm dark:shadow-glass relative group transition-all duration-300 hover:border-primary/30 dark:hover:border-glass-highlight hover:translate-y-[-2px] overflow-hidden">
             {/* Ambient Glow Background - contained within overflow-hidden */}
             {highlight === 'net-profit-gain' && <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/10 dark:bg-success/10 blur-3xl rounded-full transition-opacity opacity-60 group-hover:opacity-100 pointer-events-none" />}
             {highlight === 'roi' && <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/10 dark:bg-primary/10 blur-3xl rounded-full transition-opacity opacity-60 group-hover:opacity-100 pointer-events-none" />}
@@ -37,7 +37,7 @@ const MetricDisplay: React.FC<MetricDisplayProps> = ({ label, value, highlight, 
                 <span className="text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-navy-400">{label}</span>
                 {tooltip && <InfoTooltip info={tooltip} />}
             </div>
-            <div className={`text-2xl lg:text-3xl font-black tracking-tight ${textColor} relative z-10 truncate`}>
+            <div className={`text-xl sm:text-2xl lg:text-3xl font-black tracking-tight ${textColor} relative z-10 truncate`}>
                 {value}
             </div>
         </div>

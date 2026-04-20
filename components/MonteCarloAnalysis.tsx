@@ -1,11 +1,12 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, Cell, CartesianGrid } from 'recharts';
 import { InputParams, CalculatedResults } from '../types';
 import { calculateVaporRecovery } from '../utils/calculator';
 import Card from './Card';
 import SliderInput from './SliderInput';
 import { CURRENCY_SYMBOLS } from '../utils/sensitivityConfig';
+import { LangContext } from '../utils/langContext';
 
 interface MonteCarloAnalysisProps {
   baseParams: InputParams;
@@ -27,6 +28,7 @@ const formatCurrency = (val: number, currency: string) =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency, notation: 'compact' }).format(val);
 
 const MonteCarloAnalysis: React.FC<MonteCarloAnalysisProps> = ({ baseParams, currency }) => {
+  const { t } = useContext(LangContext);
   const [uncertainty, setUncertainty] = useState(15); // +/- %
   const [simulationCount, setSimulationCount] = useState(500);
   const [isSimulating, setIsSimulating] = useState(false);
@@ -146,7 +148,7 @@ const MonteCarloAnalysis: React.FC<MonteCarloAnalysisProps> = ({ baseParams, cur
                 disabled={isSimulating}
                 className="bg-primary hover:bg-primary-dark text-navy-950 font-bold px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-primary/30 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-navy-950"
             >
-                {isSimulating ? 'Running...' : 'Run Simulation'}
+                {isSimulating ? t('calculating') : t('runSimulation')}
             </button>
         </div>
 
@@ -253,24 +255,24 @@ const MonteCarloAnalysis: React.FC<MonteCarloAnalysisProps> = ({ baseParams, cur
                     <Card title="Results Summary" className="bg-gradient-to-br from-navy-900 to-navy-950">
                         <div className="space-y-4">
                             <div>
-                                <div className="text-navy-400 text-xs uppercase tracking-wider">Probability of Profit</div>
+                                <div className="text-navy-400 text-xs uppercase tracking-wider">{t('probabilityOfProfit')}</div>
                                 <div className={`text-4xl font-black ${stats.probSuccess > 80 ? 'text-success' : stats.probSuccess > 50 ? 'text-warning' : 'text-danger'}`}>
                                     {stats.probSuccess.toFixed(1)}%
                                 </div>
                             </div>
                              <div>
-                                <div className="text-navy-400 text-xs uppercase tracking-wider">Average Net Outcome</div>
+                                <div className="text-navy-400 text-xs uppercase tracking-wider">{t('averageOutcome')}</div>
                                 <div className="text-xl font-bold text-white">
                                     {formatCurrency(stats.avg, currency)}
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/10">
                                 <div>
-                                    <div className="text-navy-500 text-[10px] uppercase">Worst Case</div>
+                                    <div className="text-navy-500 text-[10px] uppercase">{t('worstCase')}</div>
                                     <div className="text-danger font-mono font-bold">{formatCurrency(stats.min, currency)}</div>
                                 </div>
                                 <div>
-                                    <div className="text-navy-500 text-[10px] uppercase">Best Case</div>
+                                    <div className="text-navy-500 text-[10px] uppercase">{t('bestCase')}</div>
                                     <div className="text-success font-mono font-bold">{formatCurrency(stats.max, currency)}</div>
                                 </div>
                             </div>

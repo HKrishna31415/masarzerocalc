@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { InputParams, Station } from '../types';
 import Card from './Card';
@@ -8,6 +8,7 @@ import SliderInput from './SliderInput';
 import MetricDisplay from './MetricDisplay';
 import { CURRENCY_SYMBOLS } from '../utils/sensitivityConfig';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts';
+import { LangContext } from '../utils/langContext';
 
 interface LeaseAnalysisProps {
   globalParams: InputParams;
@@ -33,6 +34,7 @@ const CustomScatterTooltip = ({ active, payload, currency }: any) => {
 }
 
 const LeaseAnalysis: React.FC<LeaseAnalysisProps> = ({ globalParams, currency }) => {
+  const { t } = useContext(LangContext);
   const [stations, setStations] = useState<Station[]>([
       { id: '1', name: 'Station A', dailyVolume: 35000, recoveryRate: 0.5, uptime: 99.5, installCost: 5000, localCurrency: currency, exchangeRateToGlobal: 1 },
       { id: '2', name: 'Station B', dailyVolume: 50000, recoveryRate: 0.5, uptime: 99.0, installCost: 5000, localCurrency: currency, exchangeRateToGlobal: 1 },
@@ -209,39 +211,39 @@ const LeaseAnalysis: React.FC<LeaseAnalysisProps> = ({ globalParams, currency })
   };
 
   return (
-    <div className="p-6 lg:p-8 w-full max-w-7xl mx-auto h-full overflow-y-auto pb-24">
-      {/* Swiss Grid Header */}
+    <div className="p-4 lg:p-8 w-full max-w-7xl mx-auto overflow-y-auto pb-24">
+      {/* Header */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex justify-between items-center mb-12 pb-6 border-b-2 border-slate-900 dark:border-white/20"
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-6 border-b-2 border-slate-900 dark:border-white/20 gap-4"
       >
         <div>
-          <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+          <h1 className="text-2xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-1">
             Lease Analysis
           </h1>
-          <p className="text-sm text-slate-600 dark:text-navy-400 font-medium uppercase tracking-wider">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-navy-400 font-medium uppercase tracking-wider">
             Station-by-Station Unit Economics
           </p>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex gap-2 sm:gap-3 flex-shrink-0">
             <motion.button 
                 onClick={() => setShowBulkGen(!showBulkGen)}
-                className="flex items-center space-x-2 bg-white dark:bg-navy-800 hover:bg-slate-100 dark:hover:bg-navy-700 text-slate-900 dark:text-white px-5 py-3 rounded-lg border-2 border-slate-300 dark:border-white/10 transition-all font-bold text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                whileHover={{ scale: 1.02, y: -2 }}
+                className="flex items-center space-x-2 bg-white dark:bg-navy-800 hover:bg-slate-100 dark:hover:bg-navy-700 text-slate-900 dark:text-white px-3 sm:px-5 py-2 sm:py-3 rounded-lg border-2 border-slate-300 dark:border-white/10 transition-all font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
             >
                 <SlidersIcon className="w-4 h-4" />
-                <span>Bulk Add</span>
+                <span className="hidden sm:inline">Bulk Add</span>
             </motion.button>
             <motion.button 
                 onClick={handleExport}
-                className="flex items-center space-x-2 bg-gradient-to-r from-primary to-primary-dark hover:brightness-110 text-white px-5 py-3 rounded-lg shadow-lg transition-all font-bold text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                whileHover={{ scale: 1.02, y: -2 }}
+                className="flex items-center space-x-2 bg-gradient-to-r from-primary to-primary-dark hover:brightness-110 text-white px-3 sm:px-5 py-2 sm:py-3 rounded-lg shadow-lg transition-all font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
             >
                 <DownloadIcon className="w-4 h-4" />
-                <span>Export CSV</span>
+                <span className="hidden sm:inline">Export CSV</span>
             </motion.button>
         </div>
       </motion.div>
@@ -332,7 +334,7 @@ const LeaseAnalysis: React.FC<LeaseAnalysisProps> = ({ globalParams, currency })
              <Card title={`Station Portfolio (${stations.length} Units)`} noPadding className="overflow-hidden min-h-[400px] border-2 border-slate-900 dark:border-white/10">
                  {viewMode === 'table' ? (
                      <div className="w-full overflow-x-auto custom-scrollbar">
-                         <table className="w-full text-sm text-left min-w-[800px]">
+                         <table className="w-full text-sm text-left min-w-[600px]">
                              <thead className="bg-slate-900 dark:bg-white/5 border-b-2 border-slate-900 dark:border-white/10 sticky top-0 z-10">
                                  <tr>
                                      <th className="px-6 py-4 font-black text-white uppercase tracking-wider text-xs">Station Name</th>

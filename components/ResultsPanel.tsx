@@ -162,7 +162,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
       />
 
       {/* 1. HERO METRICS SECTION */}
-      <div id="hero-metrics" className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 flex-shrink-0">
+      <div id="hero-metrics" className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
          <motion.div
            animate={changedMetrics.has('netProfit') ? {
              backgroundColor: profitability.netProfit >= 0 
@@ -240,7 +240,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
                       <button 
                           key={tab}
                           onClick={() => setActiveTab(tab)}
-                          className={`px-3 lg:px-4 py-1.5 text-[10px] lg:text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-slate-200 dark:focus:ring-offset-navy-950 ${
+                          className={`px-2 sm:px-3 lg:px-4 py-1.5 text-[9px] sm:text-[10px] lg:text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-slate-200 dark:focus:ring-offset-navy-950 ${
                               activeTab === tab 
                               ? 'bg-white dark:bg-gradient-primary text-slate-900 dark:text-white shadow-sm dark:shadow-glow' 
                               : 'text-slate-500 dark:text-navy-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300 dark:hover:bg-white/5'
@@ -254,7 +254,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
               <div className="flex items-center space-x-2">
                  <button 
                     onClick={handleExportCSV}
-                    className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-navy-200 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors uppercase tracking-wider px-3 py-1.5 rounded-lg border border-slate-300 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-slate-100 dark:focus:ring-offset-navy-950"
+                    className="flex items-center space-x-1 sm:space-x-2 text-xs font-bold text-slate-600 dark:text-navy-200 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors uppercase tracking-wider px-2 sm:px-3 py-2 rounded-lg border border-slate-300 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-slate-100 dark:focus:ring-offset-navy-950 min-h-[36px]"
                     title="Download raw data for Excel"
                   >
                       <TableIcon className="w-4 h-4" />
@@ -263,7 +263,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
                   <button 
                     id="executive-report-btn"
                     onClick={handlePrintPDF}
-                    className="flex items-center space-x-2 text-xs font-bold text-white bg-gradient-primary hover:brightness-110 transition-colors uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-navy-950"
+                    className="flex items-center space-x-1 sm:space-x-2 text-xs font-bold text-white bg-gradient-primary hover:brightness-110 transition-colors uppercase tracking-wider px-2 sm:px-3 py-2 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-navy-950 min-h-[36px]"
                   >
                       <DownloadIcon className="w-4 h-4" />
                       <span className="hidden sm:inline">Report</span>
@@ -271,7 +271,7 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
               </div>
           </div>
 
-          <div className="relative p-2 lg:p-4 h-[420px]">
+          <div className="relative p-2 lg:p-4 h-[280px] sm:h-[340px] md:h-[420px]">
               {activeTab === 'Profit Waterfall' && (
                   <div className="w-full h-full">
                       <ProfitWaterfallChart results={results} currency={currency} darkMode={darkMode} />
@@ -293,15 +293,15 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
                   </div>
               )}
               {activeTab === 'Ledger' && (
-                   <div className="h-[380px] w-full overflow-hidden flex flex-col">
+                   <div className="h-[260px] sm:h-[340px] w-full overflow-hidden flex flex-col">
                         <div className="overflow-auto custom-scrollbar flex-1 w-full border border-slate-200 dark:border-white/10 rounded-lg">
-                            <table className="w-full text-sm text-left text-slate-600 dark:text-navy-200 min-w-[400px]">
-                                <thead className="text-xs text-slate-700 dark:text-white uppercase bg-slate-100 dark:bg-white/5 sticky top-0 z-10">
+                            <table className="w-full text-xs sm:text-sm text-left text-slate-600 dark:text-navy-200 min-w-[320px]">
+                                <thead className="text-[10px] sm:text-xs text-slate-700 dark:text-white uppercase bg-slate-100 dark:bg-white/5 sticky top-0 z-10">
                                     <tr>
-                                        <th className="px-6 py-3 font-bold">Year</th>
-                                        <th className="px-6 py-3 font-bold text-right">Net Cash Flow</th>
-                                        <th className="px-6 py-3 font-bold text-right">Cumulative</th>
-                                        <th className="px-6 py-3 font-bold text-center">Details</th>
+                                        <th className="px-3 sm:px-6 py-2 sm:py-3 font-bold">Year</th>
+                                        <th className="px-3 sm:px-6 py-2 sm:py-3 font-bold text-right">Net Cash Flow</th>
+                                        <th className="px-3 sm:px-6 py-2 sm:py-3 font-bold text-right">Cumulative</th>
+                                        <th className="px-3 sm:px-6 py-2 sm:py-3 font-bold text-center hidden sm:table-cell">Details</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200 dark:divide-white/5">
@@ -314,14 +314,14 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ results, inputs, currency, 
                                                 className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group"
                                                 whileHover={{ backgroundColor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)' }}
                                             >
-                                                <td className="px-6 py-3 font-medium text-slate-900 dark:text-white">{year.year === 0 ? 'Start' : `Year ${year.year}`}</td>
-                                                <td className={`px-6 py-3 text-right font-mono ${year.net >= 0 ? 'text-emerald-600 dark:text-success' : 'text-red-600 dark:text-danger'}`}>
+                                                <td className="px-3 sm:px-6 py-2 sm:py-3 font-medium text-slate-900 dark:text-white">{year.year === 0 ? 'Start' : `Year ${year.year}`}</td>
+                                                <td className={`px-3 sm:px-6 py-2 sm:py-3 text-right font-mono ${year.net >= 0 ? 'text-emerald-600 dark:text-success' : 'text-red-600 dark:text-danger'}`}>
                                                     {formatCurrency(year.net, currency)}
                                                 </td>
-                                                <td className={`px-6 py-3 text-right font-mono font-bold ${cumulative >= 0 ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-navy-400'}`}>
+                                                <td className={`px-3 sm:px-6 py-2 sm:py-3 text-right font-mono font-bold ${cumulative >= 0 ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-navy-400'}`}>
                                                     {formatCurrency(cumulative, currency)}
                                                 </td>
-                                                <td className="px-6 py-3 text-center">
+                                                <td className="px-3 sm:px-6 py-2 sm:py-3 text-center hidden sm:table-cell">
                                                     <motion.button
                                                         onClick={() => setFlyoutYear(year.year)}
                                                         className="text-xs font-bold text-primary-dark dark:text-primary-light hover:underline opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider"

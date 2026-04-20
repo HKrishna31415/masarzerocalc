@@ -5,6 +5,7 @@ import { InputParams, CalculatedResults } from '../types';
 import { calculateVaporRecovery } from '../utils/calculator';
 import Card from './Card';
 import { AdjustmentsIcon, CheckIcon, XIcon } from './icons';
+import { LangContext } from '../utils/langContext';
 
 interface GoalSeekAnalysisProps {
   currentParams: InputParams;
@@ -17,6 +18,7 @@ type GoalMetric = 'irr' | 'npv' | 'netProfit' | 'roi';
 type AdjustableVariable = 'gasolinePrice' | 'companyRevenueShare' | 'avgGasolineSold' | 'unitSalePrice' | 'installationMargin' | 'unitCost' | 'annualMaintenanceCost' | 'leaseTerm' | 'recoveryRate' | 'electricityPrice' | 'volumeGrowthRate';
 
 const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUpdateParams, currency, onNavigate }) => {
+  const { t } = React.useContext(LangContext);
   const [targetMetric, setTargetMetric] = useState<GoalMetric>('irr');
   const [targetValue, setTargetValue] = useState<number>(25); // Default target 25% IRR
   const [adjustableVariable, setAdjustableVariable] = useState<AdjustableVariable>('gasolinePrice');
@@ -214,7 +216,7 @@ const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUp
   };
 
   return (
-    <div className="p-6 lg:p-8 w-full max-w-4xl mx-auto h-full overflow-y-auto custom-scrollbar">
+    <div className="p-4 lg:p-8 w-full max-w-4xl mx-auto overflow-y-auto custom-scrollbar pb-16">
         {/* Success Confirmation Modal */}
         <AnimatePresence>
             {showConfirmation && (
@@ -280,16 +282,16 @@ const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUp
                 <AdjustmentsIcon className="w-8 h-8 text-white" />
             </div>
             <div>
-                <h1 className="text-3xl font-bold text-white">Goal Seek</h1>
-                <p className="text-navy-400 mt-1">Reverse engineer your model to find the required inputs for a target outcome.</p>
+                <h1 className="text-2xl lg:text-3xl font-bold text-white">{t('goalSeek')}</h1>
+                <p className="text-navy-400 mt-1 text-sm">Reverse engineer your model to find the required inputs for a target outcome.</p>
             </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             <Card title="Target Configuration">
                 <div className="space-y-4">
                     <div>
-                        <label htmlFor="target-metric-select" className="block text-xs font-bold text-navy-400 uppercase tracking-widest mb-2">I want to achieve a...</label>
+                        <label htmlFor="target-metric-select" className="block text-xs font-bold text-navy-400 uppercase tracking-widest mb-2">{t('targetMetric')}</label>
                         <select 
                             id="target-metric-select"
                             value={targetMetric}
@@ -318,7 +320,7 @@ const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUp
                     </div>
 
                     <div className="border-t border-white/10 pt-4 mt-4">
-                        <label htmlFor="adjustable-variable-select" className="block text-xs font-bold text-navy-400 uppercase tracking-widest mb-2">By Adjusting...</label>
+                        <label htmlFor="adjustable-variable-select" className="block text-xs font-bold text-navy-400 uppercase tracking-widest mb-2">{t('adjustVariable')}</label>
                          <select 
                             id="adjustable-variable-select"
                             value={adjustableVariable}
@@ -349,7 +351,7 @@ const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUp
                                 <div className="h-full bg-primary-light/30 transition-all duration-100" style={{ width: `${progress}%` }}></div>
                             </div>
                         )}
-                        <span className="relative z-10">{isSolving ? 'Calculating...' : 'Find Solution'}</span>
+                        <span className="relative z-10">{isSolving ? t('solving') : t('findSolution')}</span>
                     </button>
                 </div>
             </Card>
@@ -382,7 +384,7 @@ const GoalSeekAnalysis: React.FC<GoalSeekAnalysisProps> = ({ currentParams, onUp
                                 onClick={applySolution}
                                 className="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-lg text-sm font-bold transition-colors border border-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-navy-950"
                             >
-                                Apply to Model
+                                {t('applyToModel')}
                             </button>
                         </div>
                     ) : (

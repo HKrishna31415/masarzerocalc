@@ -1,7 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CalculatorIcon, ChartBarIcon, BeakerIcon, FolderIcon, ClipboardListIcon, TableIcon, ViewBoardsIcon, SlidersIcon, AdjustmentsIcon, ShieldCheckIcon, PresentationChartBarIcon, CogIcon } from './icons';
+import { ChartBarIcon, FolderIcon, ClipboardListIcon, TableIcon, ViewBoardsIcon, AdjustmentsIcon, ShieldCheckIcon, PresentationChartBarIcon, CogIcon } from './icons';
+import { LangContext } from '../utils/langContext';
 
 interface SidebarProps {
   activePage: 'model' | 'assumptions' | 'sensitivity' | 'scenarios' | 'lease-analysis' | 'monte-carlo' | 'comparison' | 'goal-seek' | 'impact' | 'presentation';
@@ -12,6 +12,23 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true, onClose }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useContext(LangContext) ?? { t: (k: string) => k };
+
+  const coreItems: { icon: React.ReactNode; key: string; page: string; id?: string }[] = [
+    { icon: <ViewBoardsIcon className="w-5 h-5"/>, key: 'dashboard', page: 'model' },
+    { icon: <ShieldCheckIcon className="w-5 h-5"/>, key: 'impact', page: 'impact' },
+    { icon: <ViewBoardsIcon className="w-5 h-5 rotate-90"/>, key: 'scenarios', page: 'comparison', id: 'nav-item-comparison' },
+    { icon: <ChartBarIcon className="w-5 h-5"/>, key: 'sensitivity', page: 'sensitivity' },
+    { icon: <TableIcon className="w-5 h-5"/>, key: 'monteCarlo', page: 'monte-carlo', id: 'nav-item-monte-carlo' },
+  ];
+
+  const toolItems: { icon: React.ReactNode; key: string; page: string; id?: string }[] = [
+    { icon: <PresentationChartBarIcon className="w-5 h-5"/>, key: 'present', page: 'presentation' },
+    { icon: <AdjustmentsIcon className="w-5 h-5"/>, key: 'goalSeek', page: 'goal-seek' },
+    { icon: <ClipboardListIcon className="w-5 h-5"/>, key: 'lease', page: 'lease-analysis' },
+    { icon: <FolderIcon className="w-5 h-5"/>, key: 'saved', page: 'scenarios' },
+    { icon: <CogIcon className="w-5 h-5"/>, key: 'settings', page: 'assumptions' },
+  ];
 
   return (
     <>
@@ -49,89 +66,39 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                 <div className="flex-1 overflow-y-auto py-6 px-2 space-y-8 custom-scrollbar">
                     <div>
                         <div className="px-3 mb-3 text-[9px] font-black text-slate-500 dark:text-navy-500 uppercase tracking-[0.15em]">
-                            Core Analysis
+                            {t('coreAnalysis')}
                         </div>
                         <ul className="space-y-1">
-                            <NavItem 
-                                icon={<ViewBoardsIcon className="w-5 h-5"/>} 
-                                text="Dashboard" 
-                                active={activePage === 'model'} 
-                                onClick={() => { onNavigate('model'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                             <NavItem 
-                                icon={<ShieldCheckIcon className="w-5 h-5"/>} 
-                                text="Impact" 
-                                active={activePage === 'impact'} 
-                                onClick={() => { onNavigate('impact'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                id="nav-item-comparison" 
-                                icon={<ViewBoardsIcon className="w-5 h-5 rotate-90"/>} 
-                                text="Scenarios" 
-                                active={activePage === 'comparison'} 
-                                onClick={() => { onNavigate('comparison'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                icon={<ChartBarIcon className="w-5 h-5"/>} 
-                                text="Sensitivity" 
-                                active={activePage === 'sensitivity'} 
-                                onClick={() => { onNavigate('sensitivity'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                id="nav-item-monte-carlo" 
-                                icon={<TableIcon className="w-5 h-5"/>} 
-                                text="Monte Carlo" 
-                                active={activePage === 'monte-carlo'} 
-                                onClick={() => { onNavigate('monte-carlo'); onClose?.(); }}
-                                isExpanded={true}
-                            />
+                            {coreItems.map((item) => (
+                                <NavItem
+                                    key={item.key}
+                                    id={item.id}
+                                    icon={item.icon}
+                                    text={t(item.key)}
+                                    active={activePage === item.page}
+                                    onClick={() => { onNavigate(item.page); onClose?.(); }}
+                                    isExpanded={true}
+                                />
+                            ))}
                         </ul>
                     </div>
 
                     <div>
                         <div className="px-3 mb-3 text-[9px] font-black text-slate-500 dark:text-navy-500 uppercase tracking-[0.15em]">
-                            Tools & Config
+                            {t('toolsConfig')}
                         </div>
                         <ul className="space-y-1">
-                            <NavItem 
-                                icon={<PresentationChartBarIcon className="w-5 h-5"/>} 
-                                text="Present" 
-                                active={activePage === 'presentation'} 
-                                onClick={() => { onNavigate('presentation'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                icon={<AdjustmentsIcon className="w-5 h-5"/>} 
-                                text="Goal Seek" 
-                                active={activePage === 'goal-seek'} 
-                                onClick={() => { onNavigate('goal-seek'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                icon={<ClipboardListIcon className="w-5 h-5"/>} 
-                                text="Lease" 
-                                active={activePage === 'lease-analysis'} 
-                                onClick={() => { onNavigate('lease-analysis'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                icon={<FolderIcon className="w-5 h-5"/>} 
-                                text="Saved" 
-                                active={activePage === 'scenarios'} 
-                                onClick={() => { onNavigate('scenarios'); onClose?.(); }}
-                                isExpanded={true}
-                            />
-                            <NavItem 
-                                icon={<CogIcon className="w-5 h-5"/>} 
-                                text="Settings" 
-                                active={activePage === 'assumptions'} 
-                                onClick={() => { onNavigate('assumptions'); onClose?.(); }}
-                                isExpanded={true}
-                            />
+                            {toolItems.map((item) => (
+                                <NavItem
+                                    key={item.key}
+                                    id={item.id}
+                                    icon={item.icon}
+                                    text={t(item.key)}
+                                    active={activePage === item.page}
+                                    onClick={() => { onNavigate(item.page); onClose?.(); }}
+                                    isExpanded={true}
+                                />
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -144,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                         rel="noopener noreferrer"
                         className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white text-xs font-bold py-2.5 rounded-lg transition-all shadow-lg hover:shadow-glow focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-navy-950 group"
                     >
-                        <span className="uppercase tracking-wider">Visit MasarZero</span>
+                        <span className="uppercase tracking-wider">{t('visitMasarZero')}</span>
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
@@ -237,48 +204,22 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                                     exit={{ opacity: 0, x: -10 }}
                                     className="px-3 mb-3 text-[9px] font-black text-slate-500 dark:text-navy-500 uppercase tracking-[0.15em] whitespace-nowrap"
                                 >
-                                    Core Analysis
+                                    {t('coreAnalysis')}
                                 </motion.div>
                             )}
                         </AnimatePresence>
                         <ul className="space-y-1">
-                            <NavItem 
-                                icon={<ViewBoardsIcon className="w-5 h-5"/>} 
-                                text="Dashboard" 
-                                active={activePage === 'model'} 
-                                onClick={() => { onNavigate('model'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                             <NavItem 
-                                icon={<ShieldCheckIcon className="w-5 h-5"/>} 
-                                text="Impact" 
-                                active={activePage === 'impact'} 
-                                onClick={() => { onNavigate('impact'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                id="nav-item-comparison" 
-                                icon={<ViewBoardsIcon className="w-5 h-5 rotate-90"/>} 
-                                text="Scenarios" 
-                                active={activePage === 'comparison'} 
-                                onClick={() => { onNavigate('comparison'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                icon={<ChartBarIcon className="w-5 h-5"/>} 
-                                text="Sensitivity" 
-                                active={activePage === 'sensitivity'} 
-                                onClick={() => { onNavigate('sensitivity'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                id="nav-item-monte-carlo" 
-                                icon={<TableIcon className="w-5 h-5"/>} 
-                                text="Monte Carlo" 
-                                active={activePage === 'monte-carlo'} 
-                                onClick={() => { onNavigate('monte-carlo'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
+                            {coreItems.map((item) => (
+                                <NavItem
+                                    key={item.key}
+                                    id={item.id}
+                                    icon={item.icon}
+                                    text={t(item.key)}
+                                    active={activePage === item.page}
+                                    onClick={() => { onNavigate(item.page); onClose?.(); }}
+                                    isExpanded={isExpanded}
+                                />
+                            ))}
                         </ul>
                     </div>
 
@@ -291,46 +232,22 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                                     exit={{ opacity: 0, x: -10 }}
                                     className="px-3 mb-3 text-[9px] font-black text-slate-500 dark:text-navy-500 uppercase tracking-[0.15em] whitespace-nowrap"
                                 >
-                                    Tools & Config
+                                    {t('toolsConfig')}
                                 </motion.div>
                             )}
                         </AnimatePresence>
                         <ul className="space-y-1">
-                            <NavItem 
-                                icon={<PresentationChartBarIcon className="w-5 h-5"/>} 
-                                text="Present" 
-                                active={activePage === 'presentation'} 
-                                onClick={() => { onNavigate('presentation'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                icon={<AdjustmentsIcon className="w-5 h-5"/>} 
-                                text="Goal Seek" 
-                                active={activePage === 'goal-seek'} 
-                                onClick={() => { onNavigate('goal-seek'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                icon={<ClipboardListIcon className="w-5 h-5"/>} 
-                                text="Lease" 
-                                active={activePage === 'lease-analysis'} 
-                                onClick={() => { onNavigate('lease-analysis'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                icon={<FolderIcon className="w-5 h-5"/>} 
-                                text="Saved" 
-                                active={activePage === 'scenarios'} 
-                                onClick={() => { onNavigate('scenarios'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
-                            <NavItem 
-                                icon={<CogIcon className="w-5 h-5"/>} 
-                                text="Settings" 
-                                active={activePage === 'assumptions'} 
-                                onClick={() => { onNavigate('assumptions'); onClose?.(); }}
-                                isExpanded={isExpanded}
-                            />
+                            {toolItems.map((item) => (
+                                <NavItem
+                                    key={item.key}
+                                    id={item.id}
+                                    icon={item.icon}
+                                    text={t(item.key)}
+                                    active={activePage === item.page}
+                                    onClick={() => { onNavigate(item.page); onClose?.(); }}
+                                    isExpanded={isExpanded}
+                                />
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -353,7 +270,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate, isOpen = true
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                <span className="uppercase tracking-wider">Visit MasarZero</span>
+                                <span className="uppercase tracking-wider">{t('visitMasarZero')}</span>
                                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
