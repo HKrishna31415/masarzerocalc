@@ -22,11 +22,12 @@ interface InputPanelProps {
 
 // Machine Hardware Presets (Base EXW costs - adjust for FOB/DDP)
 const HARDWARE_PRESETS = [
-    { name: 'KSM-5',   unitCost: 18000, power: 2.2, rate: 21,  maintenance: 500,  install: 1500 },
-    { name: 'AWVR',    unitCost: 19000, power: 3.0, rate: 30,  maintenance: 750,  install: 2000 },
-    { name: 'GEVLR-2', unitCost: 15000, power: 4.0, rate: 42,  maintenance: 1000, install: 3000 },
-    { name: 'GEVLR-3', unitCost: 22000, power: 12.0, rate: 126, maintenance: 1000, install: 5000 },
-    { name: 'MZ-1',    unitCost: 50000, power: 24.0, rate: 252, maintenance: 1000, install: 8000 },
+    { name: 'KSM-5',    unitCost: 18000,  power: 2.2,  rate: 21,  maintenance: 500,  install: 1500  },
+    { name: 'AWVR',     unitCost: 19000,  power: 3.0,  rate: 30,  maintenance: 750,  install: 2000  },
+    { name: 'GEVLR-2',  unitCost: 15000,  power: 4.0,  rate: 42,  maintenance: 1000, install: 3000  },
+    { name: 'GEVLR-3',  unitCost: 22000,  power: 12.0, rate: 126, maintenance: 1000, install: 5000  },
+    { name: 'KSM-1000', unitCost: 500000, power: 50.0, rate: 1000, maintenance: 5000, install: 20000 },
+    { name: 'MZ-1',     unitCost: 50000,  power: 24.0, rate: 252, maintenance: 1000, install: 8000  },
 ];
 
 // Accordion Item Component

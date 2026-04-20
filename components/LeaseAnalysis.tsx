@@ -9,6 +9,7 @@ import MetricDisplay from './MetricDisplay';
 import { CURRENCY_SYMBOLS } from '../utils/sensitivityConfig';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts';
 import { LangContext } from '../utils/langContext';
+import { KSM1000_REFERENCE_INSTALLATIONS } from '../utils/referenceInstallations';
 
 interface LeaseAnalysisProps {
   globalParams: InputParams;
@@ -40,6 +41,13 @@ const LeaseAnalysis: React.FC<LeaseAnalysisProps> = ({ globalParams, currency })
       { id: '2', name: 'Station B', dailyVolume: 50000, recoveryRate: 0.5, uptime: 99.0, installCost: 5000, localCurrency: currency, exchangeRateToGlobal: 1 },
   ]);
 
+  const loadReferenceInstallations = () => {
+    const refStations: Station[] = KSM1000_REFERENCE_INSTALLATIONS.map((s, i) => ({
+      ...s,
+      id: `ref-${Date.now()}-${i}`,
+    }));
+    setStations(refStations);
+  };
   // Local overrides for analysis
   const [growthRate, setGrowthRate] = useState(globalParams.volumeGrowthRate);
   const [dailyOpsCost, setDailyOpsCost] = useState(globalParams.dailyOperationalCost);
@@ -227,6 +235,16 @@ const LeaseAnalysis: React.FC<LeaseAnalysisProps> = ({ globalParams, currency })
           </p>
         </div>
         <div className="flex gap-2 sm:gap-3 flex-shrink-0">
+            <motion.button 
+                onClick={loadReferenceInstallations}
+                className="flex items-center space-x-2 bg-primary/10 hover:bg-primary/20 text-primary-dark dark:text-primary-light border-2 border-primary/30 px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                title="Load 58 KSM-1000 reference installations from China"
+            >
+                <span className="text-base leading-none">🌏</span>
+                <span className="hidden sm:inline">KSM-1000 Global</span>
+            </motion.button>
             <motion.button 
                 onClick={() => setShowBulkGen(!showBulkGen)}
                 className="flex items-center space-x-2 bg-white dark:bg-navy-800 hover:bg-slate-100 dark:hover:bg-navy-700 text-slate-900 dark:text-white px-3 sm:px-5 py-2 sm:py-3 rounded-lg border-2 border-slate-300 dark:border-white/10 transition-all font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
